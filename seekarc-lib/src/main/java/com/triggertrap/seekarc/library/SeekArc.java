@@ -467,7 +467,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     public synchronized void setPercentAnimate(float percent) {
-        int progress = Math.round(((float) mMax * (float) percent) / percent);
+        int progress = Math.round(((float) mMax * (float) percent) / 100);
 
         setArcColor(progress);
 
