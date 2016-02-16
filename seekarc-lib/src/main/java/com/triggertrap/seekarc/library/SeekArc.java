@@ -466,6 +466,20 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         }
     }
 
+    public synchronized void setPercentAnimate(float percent) {
+        int progress = Math.round(((float) mMax * (float) percent) / percent);
+
+        setArcColor(progress);
+
+        if (android.os.Build.VERSION.SDK_INT >= 11) {
+            mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, progress);
+            mAnimator.addUpdateListener(SeekArc.this);
+            mAnimator.setDuration(30 * progress);
+            mAnimator.setInterpolator(new DecelerateInterpolator());
+            mAnimator.start();
+        }
+    }
+
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
         int progress = (int) animation.getAnimatedValue();
