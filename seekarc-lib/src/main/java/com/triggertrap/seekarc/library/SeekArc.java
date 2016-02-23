@@ -281,7 +281,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         } else {
             int value = Math.round( ( (float) mProgress / (float) mMax) * 100);
             if (value == 0) {
-                text = "";
+                text = "0";
             } else {
                 text =  value + "%";
             }
