@@ -1,19 +1,19 @@
 /*******************************************************************************
  * The MIT License (MIT)
- * <p/>
+ * <p>
  * Copyright (c) 2013 Triggertrap Ltd
  * Author Neil Davies
- * <p/>
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- * <p/>
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * <p/>
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -46,14 +46,12 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- *
  * SeekArc.java
- *
+ * <p>
  * This is a class that functions much like a SeekBar but
  * follows a circle path instead of a straight line.
  *
  * @author Neil Davies
- *
  */
 public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListener {
 
@@ -133,15 +131,12 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
          * fromUser parameter to distinguish user-initiated changes from those
          * that occurred programmatically.
          *
-         * @param seekArc
-         *            The SeekArc whose progress has changed
-         * @param progress
-         *            The current progress level. This will be in the range
-         *            0..max where max was set by
-         *            {@link .ProgressArcsetMax(int)}. (The default value for
-         *            max is 100.)
-         * @param fromUser
-         *            True if the progress change was initiated by the user.
+         * @param seekArc  The SeekArc whose progress has changed
+         * @param progress The current progress level. This will be in the range
+         *                 0..max where max was set by
+         *                 {@link .ProgressArcsetMax(int)}. (The default value for
+         *                 max is 100.)
+         * @param fromUser True if the progress change was initiated by the user.
          */
         void onProgressChanged(SeekArc seekArc, int progress, boolean fromUser);
     }
@@ -231,7 +226,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         mProgressPaint.setAntiAlias(true);
         mProgressPaint.setStyle(Paint.Style.STROKE);
         /*
-	  The width of the progress line for this SeekArc
+      The width of the progress line for this SeekArc
 	 */
         int mProgressWidth = (int) Utils.dp2px(getResources(), 8);
         mProgressPaint.setStrokeWidth(mProgressWidth);
@@ -279,11 +274,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         if (mProjectedScore) {
             text = String.valueOf(mProgress) + "/" + mMax;
         } else {
-            int value = Math.round( ( (float) mProgress / (float) mMax) * 100);
+            int value = Math.round(((float) mProgress / (float) mMax) * 100);
             if (value == 0) {
                 text = "0";
             } else {
-                text =  value + "%";
+                text = value + "%";
             }
 
         }
@@ -304,7 +299,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             bottomTextSubTitle = "SCORE";
         } else {
 
-            int value = Math.round( ( (float) mProgress / (float) mMax) * 100);
+            int value = Math.round(((float) mProgress / (float) mMax) * 100);
             if (value == 0) {
                 bottomTextTitle = "PENDING";
                 bottomTextSubTitle = "";
@@ -405,28 +400,34 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     public void setArcColor(int progress) {
-        if (mProjectedScore) {
-            if (progress < 50) {
-                setArcColorRed();
-            } else {
-                setArcColorGreen();
-            }
-        } else {
-            if (mMax == 120) {
+        switch (mMax) {
+            case 120:
                 if (progress < 60) {
                     setArcColorRed();
                 } else {
                     setArcColorGreen();
                 }
-            } else if (mMax == 30) {
+                break;
+
+            case 100:
+                if (progress < 50) {
+                    setArcColorRed();
+                } else {
+                    setArcColorGreen();
+                }
+                break;
+
+            case 30:
                 if (progress < 15) {
                     setArcColorRed();
                 } else {
                     setArcColorGreen();
                 }
-            } else {
+                break;
+
+            default:
                 setArcColorGreen();
-            }
+                break;
         }
     }
 
