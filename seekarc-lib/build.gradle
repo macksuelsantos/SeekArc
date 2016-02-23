@@ -13,8 +13,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testCoverageEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -26,7 +30,7 @@ dependencies {
 
 apply plugin: 'maven'
 
-version = '1.0.2'
+version = '1.0.3'
 group = 'com.triggertrap.seekarc.library'
 
 uploadArchives {
