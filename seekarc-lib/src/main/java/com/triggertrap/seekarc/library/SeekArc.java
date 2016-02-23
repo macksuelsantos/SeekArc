@@ -164,6 +164,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         }
 
         Log.d(TAG, "Initialising SeekArc");
+        setArcColorGreen();
         int padding = (int) Utils.dp2px(getResources(), 30);
         setPadding(padding, padding, padding, padding);
         final Resources res = getResources();
@@ -401,50 +402,23 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         invalidate();
     }
 
-    public void setArcColor(int progress) {
-        switch (mMax) {
-            case 120:
-                if (progress < 60) {
-                    setArcColorRed();
-                } else {
-                    setArcColorGreen();
-                }
-                break;
-
-            case 100:
-                if (progress < 50) {
-                    setArcColorRed();
-                } else {
-                    setArcColorGreen();
-                }
-                break;
-
-            case 30:
-                if (progress < 15) {
-                    setArcColorRed();
-                } else {
-                    setArcColorGreen();
-                }
-                break;
-
-            default:
-                setArcColorGreen();
-                break;
-        }
-    }
-
     public void setProjectedScore(boolean value) {
         this.mProjectedScore = value;
         invalidate();
     }
 
-    private void setArcColorGreen() {
+    public void setArcColorGreen() {
         this.mSeekArcColor = new SeekArcColor(Color.parseColor("#08b267"), Color.parseColor("#1cdfc0"));
         invalidate();
     }
 
-    private void setArcColorRed() {
+    public void setArcColorRed() {
         this.mSeekArcColor = new SeekArcColor(Color.parseColor("#b80b0b"), Color.parseColor("#ff5252"));
+        invalidate();
+    }
+
+    public void setArcColorYellow() {
+        this.mSeekArcColor = new SeekArcColor(Color.parseColor("#fac612"), Color.parseColor("#dbae11"));
         invalidate();
     }
 
@@ -469,8 +443,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     public synchronized void setProgressAnimate(int progress) {
-        setArcColor(progress);
-
         if (android.os.Build.VERSION.SDK_INT >= 11) {
             mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, progress);
             mAnimator.addUpdateListener(SeekArc.this);
@@ -482,8 +454,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     public synchronized void setPercentAnimate(float percent) {
         int progress = Math.round(((float) mMax * (float) percent) / 100);
-
-        setArcColor(progress);
 
         if (android.os.Build.VERSION.SDK_INT >= 11) {
             mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, progress);
