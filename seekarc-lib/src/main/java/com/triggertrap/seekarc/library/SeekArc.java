@@ -422,13 +422,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
                 setArcColorGreen();
             }
         } else {
-            if (progress < 40) {
-                setArcColorRed();
-            } else if (progress < 60) {
-                setArcColorSilver();
-            } else {
-                setArcColorGreen();
-            }
+            setArcColorGreen();
         }
     }
 
