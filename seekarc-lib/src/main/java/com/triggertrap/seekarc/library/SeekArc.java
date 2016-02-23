@@ -102,6 +102,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private boolean mRoundedEdges = false;
 
     private boolean mProjectedScore = true;
+
+    private boolean mHasPending = false;
     /**
      * Will the progress increase clockwise or anti-clockwise
      */
@@ -275,7 +277,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             text = String.valueOf(mProgress) + "/" + mMax;
         } else {
             int value = Math.round(((float) mProgress / (float) mMax) * 100);
-            if (value == 0) {
+            if (mHasPending && value == 0) {
                 text = "0";
             } else {
                 text = value + "%";
@@ -300,7 +302,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         } else {
 
             int value = Math.round(((float) mProgress / (float) mMax) * 100);
-            if (value == 0) {
+            if (mHasPending && value == 0) {
                 bottomTextTitle = "PENDING";
                 bottomTextSubTitle = "";
             } else {
@@ -448,6 +450,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     public void setMax(int max) {
         this.mMax = max;
+        invalidate();
+    }
+
+    public void setHasPeding(boolean value) {
+        this.mHasPending = value;
         invalidate();
     }
 
