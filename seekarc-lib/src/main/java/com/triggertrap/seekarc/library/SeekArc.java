@@ -405,20 +405,28 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     public void setArcColor(int progress) {
-        if (mMax == 120) {
-            if (progress < 60) {
-                setArcColorRed();
-            } else {
-                setArcColorGreen();
-            }
-        } else if (mMax == 30) {
-            if (progress < 15) {
+        if (mProjectedScore) {
+            if (progress < 50) {
                 setArcColorRed();
             } else {
                 setArcColorGreen();
             }
         } else {
-            setArcColorGreen();
+            if (mMax == 120) {
+                if (progress < 60) {
+                    setArcColorRed();
+                } else {
+                    setArcColorGreen();
+                }
+            } else if (mMax == 30) {
+                if (progress < 15) {
+                    setArcColorRed();
+                } else {
+                    setArcColorGreen();
+                }
+            } else {
+                setArcColorGreen();
+            }
         }
     }
 
