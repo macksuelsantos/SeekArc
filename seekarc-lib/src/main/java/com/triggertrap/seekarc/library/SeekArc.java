@@ -274,16 +274,13 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void onDrawProgress(Canvas canvas) {
         String text;
-        if (mProjectedScore) {
+        if (mHasPending) {
+            text = "0";
+        } else if (mProjectedScore) {
             text = String.valueOf(mProgress) + "/" + mMax;
         } else {
             int value = Math.round(((float) mProgress / (float) mMax) * 100);
-            if (mHasPending && value == 0) {
-                text = "0";
-            } else {
-                text = value + "%";
-            }
-
+            text = value + "%";
         }
 
         if (!TextUtils.isEmpty(text)) {
@@ -297,19 +294,15 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void onDrawTextsButton(Canvas canvas) {
         String bottomTextTitle, bottomTextSubTitle;
-        if (mProjectedScore) {
+        if (mHasPending) {
+            bottomTextTitle = "PENDING";
+            bottomTextSubTitle = "";
+        } else if (mProjectedScore) {
             bottomTextTitle = "PROJECTED";
             bottomTextSubTitle = "SCORE";
         } else {
-
-            int value = Math.round(((float) mProgress / (float) mMax) * 100);
-            if (mHasPending && value == 0) {
-                bottomTextTitle = "PENDING";
-                bottomTextSubTitle = "";
-            } else {
-                bottomTextTitle = "SESSION";
-                bottomTextSubTitle = "SCORE";
-            }
+            bottomTextTitle = "SESSION";
+            bottomTextSubTitle = "SCORE";
         }
 
         mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
