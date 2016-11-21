@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.triggertrap.seekarc.library.SeekArc;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        SeekArc seekArc = (SeekArc) findViewById(R.id.content_main_seek_arc);
+        seekArc.setSample(true);
     }
 
     @Override

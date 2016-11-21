@@ -104,6 +104,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private boolean mProjectedScore = true;
 
     private boolean mHasPending = false;
+
+    private boolean mIsSample = false;
     /**
      * Will the progress increase clockwise or anti-clockwise
      */
@@ -154,14 +156,12 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     public SeekArc(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, 0);
-        init(context, attrs, 0);
+        super(context, attrs, defStyle);
+        init(context, attrs, defStyle);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
-        if (isInEditMode()) {
-            return;
-        }
+        if (isInEditMode()) return;
 
         Log.d(TAG, "Initialising SeekArc");
         setArcColorGreen();
@@ -244,14 +244,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (isInEditMode()) {
-            return;
-        }
+        if (isInEditMode()) return;
 
         if (!mClockwise) {
             canvas.scale(-1, 1, mArcRect.centerX(), mArcRect.centerY());
         }
-
 
         mProgressPaint.setShader(new LinearGradient(0, 0, getWidth(), 0, mSeekArcColor.colorIn, mSeekArcColor.colorEnd, Shader.TileMode.MIRROR));
         onDrawProgress(canvas);
@@ -294,7 +291,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void onDrawTextsButton(Canvas canvas) {
         String bottomTextTitle, bottomTextSubTitle;
-        if (mHasPending) {
+
+        if (mIsSample) {
+            bottomTextTitle = "SAMPLE";
+            bottomTextSubTitle = "";
+        } else if (mHasPending) {
             bottomTextTitle = "PENDING";
             bottomTextSubTitle = "";
         } else if (mProjectedScore) {
@@ -322,6 +323,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (isInEditMode()) return;
 
         final int height = getDefaultSize(getSuggestedMinimumHeight(),
                 heightMeasureSpec);
@@ -367,12 +369,15 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     private void updateThumbPosition() {
+        if (isInEditMode()) return;
+
         int thumbAngle = (int) (mStartAngle + mProgressSweep + mRotation + 90);
         mThumbXPos = (int) (mArcRadius * Math.cos(Math.toRadians(thumbAngle)));
         mThumbYPos = (int) (mArcRadius * Math.sin(Math.toRadians(thumbAngle)));
     }
 
     private void updateProgress(int progress, boolean fromUser) {
+        if (isInEditMode()) return;
 
         int INVALID_PROGRESS_VALUE = -1;
         if (progress == INVALID_PROGRESS_VALUE) {
@@ -433,6 +438,10 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     public void setProjectScoreSize(int textSize) {
         this.mProjectScoreSize = textSize;
         invalidate();
+    }
+
+    public void setSample(boolean value) {
+        this.mIsSample = value;
     }
 
     public synchronized void setProgressAnimate(int progress) {
