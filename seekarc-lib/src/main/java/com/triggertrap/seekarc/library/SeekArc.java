@@ -323,8 +323,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (isInEditMode()) return;
-
         final int height = getDefaultSize(getSuggestedMinimumHeight(),
                 heightMeasureSpec);
         final int width = getDefaultSize(getSuggestedMinimumWidth(),
