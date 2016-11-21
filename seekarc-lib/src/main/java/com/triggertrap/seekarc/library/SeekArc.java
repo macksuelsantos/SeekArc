@@ -270,22 +270,24 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     private void onDrawProgress(Canvas canvas) {
-        String text;
-        if (mHasPending) {
-            text = "0";
-        } else if (mProjectedScore) {
-            text = String.valueOf(mProgress) + "/" + mMax;
-        } else {
-            int value = Math.round(((float) mProgress / (float) mMax) * 100);
-            text = value + "%";
-        }
+        if (!mIsSample) {
+            String text;
+            if (mHasPending) {
+                text = "0";
+            } else if (mProjectedScore) {
+                text = String.valueOf(mProgress) + "/" + mMax;
+            } else {
+                int value = Math.round(((float) mProgress / (float) mMax) * 100);
+                text = value + "%";
+            }
 
-        if (!TextUtils.isEmpty(text)) {
-            mTextPaint.setTextSize(Utils.dp2px(getResources(), mProjectScoreSize));
-            float textHeight = mTextPaint.descent() + mTextPaint.ascent();
-            float textBaseline = (getHeight() - textHeight) / 2f;
+            if (!TextUtils.isEmpty(text)) {
+                mTextPaint.setTextSize(Utils.dp2px(getResources(), mProjectScoreSize));
+                float textHeight = mTextPaint.descent() + mTextPaint.ascent();
+                float textBaseline = (getHeight() - textHeight) / 2f;
 
-            canvas.drawText(text, (getWidth() - mTextPaint.measureText(text)) / 2f, textBaseline, mTextPaint);
+                canvas.drawText(text, (getWidth() - mTextPaint.measureText(text)) / 2f, textBaseline, mTextPaint);
+            }
         }
     }
 
