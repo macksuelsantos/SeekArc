@@ -442,6 +442,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     public void setSample(boolean value) {
         this.mIsSample = value;
+        setProgressAnimate(0);
+        invalidate();
     }
 
     public synchronized void setProgressAnimate(int progress) {
