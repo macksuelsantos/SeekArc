@@ -244,16 +244,18 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (isInEditMode()) return;
-
         if (!mClockwise) {
             canvas.scale(-1, 1, mArcRect.centerX(), mArcRect.centerY());
         }
 
-        mProgressPaint.setShader(new LinearGradient(0, 0, getWidth(), 0, mSeekArcColor.colorIn, mSeekArcColor.colorEnd, Shader.TileMode.MIRROR));
-        onDrawProgress(canvas);
-        onDrawTextsButton(canvas);
-        onDrawArc(canvas);
+        if (!isInEditMode()) {
+            LinearGradient linearGradient = new LinearGradient(0, 0, getWidth(), 0, mSeekArcColor.colorIn, mSeekArcColor.colorEnd, Shader.TileMode.MIRROR);
+            mProgressPaint.setShader(linearGradient);
+
+            onDrawProgress(canvas);
+            onDrawTextsButton(canvas);
+            onDrawArc(canvas);
+        }
     }
 
     private void onDrawArc(Canvas canvas) {
@@ -295,7 +297,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         String bottomTextTitle, bottomTextSubTitle;
 
         if (mIsSample) {
-            bottomTextTitle = "SAMPLE";
+            bottomTextTitle = "EXAMPLE";
             bottomTextSubTitle = "";
         } else if (mHasPending) {
             bottomTextTitle = "PENDING";
@@ -369,8 +371,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     private void updateThumbPosition() {
-        if (isInEditMode()) return;
-
         int thumbAngle = (int) (mStartAngle + mProgressSweep + mRotation + 90);
         mThumbXPos = (int) (mArcRadius * Math.cos(Math.toRadians(thumbAngle)));
         mThumbYPos = (int) (mArcRadius * Math.sin(Math.toRadians(thumbAngle)));
