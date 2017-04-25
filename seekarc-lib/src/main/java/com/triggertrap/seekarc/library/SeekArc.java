@@ -214,8 +214,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void initPainters() {
         mTextPaint = new TextPaint();
-        mTextPaint.setColor(Color.parseColor("#606973"));
-        mTextPaint.setTextSize(Utils.dp2px(getResources(), 10));
+        mTextPaint.setColor(Color.parseColor("#ffffff"));
         mTextPaint.setAntiAlias(true);
 
         mArcPaint = new Paint();
@@ -310,19 +309,21 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             bottomTextSubTitle = "SCORE";
         }
 
-        mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        mTextPaint.setTextSize(Utils.dp2px(getResources(), 9));
-
         float x, y;
 
+        mTextPaint.setTextSize(Utils.dp2px(getResources(), 9));
+        mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         x = (getWidth() - mTextPaint.measureText(bottomTextTitle)) / 2f;
-        y = (arcBottomHeight - (mTextPaint.descent() + mTextPaint.ascent())) - getPaddingBottom();
+        y = (getHeight() / 2) + (arcBottomHeight / 2) - getPaddingBottom();
+//        y = (arcBottomHeight - (mTextPaint.descent() + mTextPaint.ascent())) - getPaddingBottom();
         canvas.drawText(bottomTextTitle, x, y, mTextPaint);
 
-        mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-        x = (getWidth() - mTextPaint.measureText(bottomTextSubTitle)) / 2f;
-        y += mTextPaint.descent() - mTextPaint.ascent();
-        canvas.drawText(bottomTextSubTitle, x, y, mTextPaint);
+        if (!bottomTextSubTitle.isEmpty()) {
+            mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            x = (getWidth() - mTextPaint.measureText(bottomTextSubTitle)) / 2f;
+            y += mTextPaint.descent() - mTextPaint.ascent();
+            canvas.drawText(bottomTextSubTitle, x, y, mTextPaint);
+        }
     }
 
     @Override
