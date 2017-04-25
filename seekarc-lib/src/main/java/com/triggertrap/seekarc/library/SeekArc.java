@@ -214,7 +214,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private void initPainters() {
         mTextPaint = new TextPaint();
-        mTextPaint.setColor(Color.parseColor("#ffffff"));
+        mTextPaint.setColor(Color.parseColor("#5d6670"));
         mTextPaint.setAntiAlias(true);
 
         mArcPaint = new Paint();
@@ -315,7 +315,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         x = (getWidth() - mTextPaint.measureText(bottomTextTitle)) / 2f;
         y = (getHeight() / 2) + (arcBottomHeight / 2) - getPaddingBottom();
-//        y = (arcBottomHeight - (mTextPaint.descent() + mTextPaint.ascent())) - getPaddingBottom();
         canvas.drawText(bottomTextTitle, x, y, mTextPaint);
 
         if (!bottomTextSubTitle.isEmpty()) {
