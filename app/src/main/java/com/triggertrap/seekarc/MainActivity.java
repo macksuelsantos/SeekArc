@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         SeekArc seekArc = (SeekArc) findViewById(R.id.content_main_seek_arc);
 //        seekArc.setSample(true);
+//        seekArc.setIsCEFR(true, "C1");
         seekArc.setProgressAnimate(50);
     }
 

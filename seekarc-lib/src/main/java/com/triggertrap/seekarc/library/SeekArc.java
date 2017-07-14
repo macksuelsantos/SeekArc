@@ -106,6 +106,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private boolean mHasPending = false;
 
     private boolean mIsSample = false;
+
+    private boolean mIsCEFR = false;
     /**
      * Will the progress increase clockwise or anti-clockwise
      */
@@ -127,6 +129,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private int mArcColor;
     private float arcBottomHeight;
     private OnSeekArcChangeListener mOnSeekArcChangeListener;
+    private String mCEFRScore;
 
     public interface OnSeekArcChangeListener {
 
@@ -273,7 +276,10 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private void onDrawProgress(Canvas canvas) {
         if (!mIsSample) {
             String text;
-            if (mHasPending) {
+
+            if (mIsCEFR) {
+                text = mCEFRScore;
+            } else if (mHasPending) {
                 text = "0";
             } else if (mProjectedScore) {
                 text = String.valueOf(mProgress) + "/" + mMax;
@@ -295,7 +301,10 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private void onDrawTextsButton(Canvas canvas) {
         String bottomTextTitle, bottomTextSubTitle;
 
-        if (mIsSample) {
+        if (mIsCEFR) {
+            bottomTextTitle = "CEFR";
+            bottomTextSubTitle = "SCORE";
+        } else if (mIsSample) {
             bottomTextTitle = "EXAMPLE";
             bottomTextSubTitle = "";
         } else if (mHasPending) {
@@ -444,6 +453,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         this.mIsSample = value;
         setProgressAnimate(0);
         invalidate();
+    }
+
+    public void setIsCEFR(boolean mIsCEFR, String cefrScore) {
+        this.mIsCEFR = mIsCEFR;
+        this.mCEFRScore = cefrScore;
     }
 
     public synchronized void setProgressAnimate(int progress) {
