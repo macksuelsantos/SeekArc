@@ -303,7 +303,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
         if (mIsCEFR) {
             bottomTextTitle = "CEFR";
-            bottomTextSubTitle = "SCORE";
+            bottomTextSubTitle = "LEVEL";
         } else if (mIsSample) {
             bottomTextTitle = "EXAMPLE";
             bottomTextSubTitle = "";
