@@ -274,13 +274,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     private void onDrawProgress(Canvas canvas) {
-        if (!mIsSample) {
+        if (!mIsSample && !mHasPending) {
             String text;
 
             if (mIsCEFR) {
                 text = mCEFRScore;
-            } else if (mHasPending) {
-                text = "0";
             } else if (mProjectedScore) {
                 text = String.valueOf(mProgress) + "/" + mMax;
             } else {
