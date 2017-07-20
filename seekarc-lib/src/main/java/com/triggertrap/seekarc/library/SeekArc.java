@@ -299,14 +299,14 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     private void onDrawTextsButton(Canvas canvas) {
         String bottomTextTitle, bottomTextSubTitle;
 
-        if (mIsCEFR) {
+        if (mHasPending) {
+            bottomTextTitle = "PENDING";
+            bottomTextSubTitle = "";
+        } else if (mIsCEFR) {
             bottomTextTitle = "CEFR";
             bottomTextSubTitle = "LEVEL";
         } else if (mIsSample) {
             bottomTextTitle = "PRACTICE";
-            bottomTextSubTitle = "";
-        } else if (mHasPending) {
-            bottomTextTitle = "PENDING";
             bottomTextSubTitle = "";
         } else if (mProjectedScore) {
             bottomTextTitle = "PROJECTED";
