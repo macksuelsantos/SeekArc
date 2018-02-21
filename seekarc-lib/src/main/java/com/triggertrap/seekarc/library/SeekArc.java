@@ -109,8 +109,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     private boolean mIsCEFR = false;
 
-    private String bottomTextTitle = "SESSION";
-    private String bottomTextSubTitle = "SCORE";
+    private String title = "", subtitle = "";
     /**
      * Will the progress increase clockwise or anti-clockwise
      */
@@ -290,6 +289,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             }
 
             if (!TextUtils.isEmpty(text)) {
+                mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
                 mTextPaint.setTextSize(Utils.dp2px(getResources(), mProjectScoreSize));
                 float textHeight = mTextPaint.descent() + mTextPaint.ascent();
                 float textBaseline = (getHeight() - textHeight) / 2f;
@@ -300,6 +300,33 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     }
 
     private void onDrawTextsButton(Canvas canvas) {
+        String bottomTextTitle, bottomTextSubTitle;
+
+        if (mHasPending) {
+            bottomTextTitle = "PENDING";
+            bottomTextSubTitle = "";
+        } else if (mIsCEFR) {
+            bottomTextTitle = "CEFR";
+            bottomTextSubTitle = "LEVEL";
+        } else if (mIsSample) {
+            bottomTextTitle = "PRACTICE";
+            bottomTextSubTitle = "";
+        } else if (mProjectedScore) {
+            bottomTextTitle = "PROJECTED";
+            bottomTextSubTitle = "SCORE";
+        } else {
+            bottomTextTitle = "SESSION";
+            bottomTextSubTitle = "SCORE";
+        }
+
+        if (title != null && !title.isEmpty()) {
+            bottomTextTitle = title;
+        }
+
+        if (subtitle != null && !subtitle.isEmpty()) {
+            bottomTextSubTitle = subtitle;
+        }
+
         float x, y;
 
         mTextPaint.setTextSize(Utils.dp2px(getResources(), 9));
@@ -391,34 +418,9 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         invalidate();
     }
 
-    public void setProjectedScore(boolean isProjectedScore, String title, String subtitle) {
-        this.bottomTextTitle = title;
-        this.bottomTextSubTitle = subtitle;
-        this.mProjectedScore = isProjectedScore;
+    public void setProjectedScore(boolean value) {
+        this.mProjectedScore = value;
         invalidate();
-    }
-
-    public void setHasPeding(String title, String subtitle) {
-        this.bottomTextTitle = title;
-        this.bottomTextSubTitle = subtitle;
-        this.mHasPending = true;
-        invalidate();
-    }
-
-    public void setSample(String title, String subtitle) {
-        this.mIsSample = true;
-        this.bottomTextTitle = title;
-        this.bottomTextSubTitle = subtitle;
-
-        setProgressAnimate(0);
-        invalidate();
-    }
-
-    public void setIsCEFR(String cefrScore, String title, String subtitle) {
-        this.bottomTextTitle = title;
-        this.bottomTextSubTitle = subtitle;
-        this.mIsCEFR = true;
-        this.mCEFRScore = cefrScore;
     }
 
     public void setArcColorGreen() {
@@ -441,6 +443,11 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         invalidate();
     }
 
+    public void setHasPeding(boolean value) {
+        this.mHasPending = value;
+        invalidate();
+    }
+
     public void setTextColor(int color) {
         this.mTextPaint.setColor(color);
         invalidate();
@@ -449,6 +456,25 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     public void setProjectScoreSize(int textSize) {
         this.mProjectScoreSize = textSize;
         invalidate();
+    }
+
+    public void setSample(boolean value) {
+        this.mIsSample = value;
+        setProgressAnimate(0);
+        invalidate();
+    }
+
+    public void setIsCEFR(boolean mIsCEFR, String cefrScore) {
+        this.mIsCEFR = mIsCEFR;
+        this.mCEFRScore = cefrScore;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public synchronized void setProgressAnimate(int progress) {
