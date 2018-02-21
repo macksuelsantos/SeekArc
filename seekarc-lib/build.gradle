@@ -28,7 +28,7 @@ dependencies {
 
 apply plugin: 'maven'
 
-version = '1.2.5'
+version = '1.2.6'
 group = 'com.triggertrap.seekarc.library'
 
 uploadArchives {

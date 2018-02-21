@@ -314,17 +314,18 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         } else if (mProjectedScore) {
             bottomTextTitle = "PROJECTED";
             bottomTextSubTitle = "SCORE";
+
+            if (title != null && !title.isEmpty()) {
+                bottomTextTitle = title;
+            }
+
+            if (subtitle != null && !subtitle.isEmpty()) {
+                bottomTextSubTitle = subtitle;
+            }
+
         } else {
             bottomTextTitle = "SESSION";
             bottomTextSubTitle = "SCORE";
-        }
-
-        if (title != null && !title.isEmpty()) {
-            bottomTextTitle = title;
-        }
-
-        if (subtitle != null && !subtitle.isEmpty()) {
-            bottomTextSubTitle = subtitle;
         }
 
         float x, y;
