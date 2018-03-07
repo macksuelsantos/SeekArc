@@ -493,7 +493,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
                 mAnimator.cancel();
             }
 
-            mAnimator = ObjectAnimator.ofFloat(SeekArc.this, "progress", 0, progress);
+            mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, (int) progress);
             mAnimator.addUpdateListener(SeekArc.this);
             mAnimator.setDuration(30 * (int) progress);
             mAnimator.setInterpolator(new DecelerateInterpolator());
