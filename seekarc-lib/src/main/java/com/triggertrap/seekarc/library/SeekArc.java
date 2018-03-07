@@ -72,7 +72,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
     /**
      * The Current value that the SeekArc is set to
      */
-    private int mProgress = 0;
+    private float mProgress = 0;
 
     /**
      * The Width of the background arc for the SeekArc
@@ -196,7 +196,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
                     thumbHalfheight);
 
             mMax = a.getInteger(R.styleable.SeekArc_max, mMax);
-            mProgress = a.getInteger(R.styleable.SeekArc_progress, mProgress);
+            mProgress = a.getFloat(R.styleable.SeekArc_progress, mProgress);
             mArcWidth = (int) a.getDimension(R.styleable.SeekArc_arcWidth, mArcWidth);
             mRoundedEdges = a.getBoolean(R.styleable.SeekArc_roundEdges, mRoundedEdges);
             mClockwise = a.getBoolean(R.styleable.SeekArc_clockwise, mClockwise);
@@ -282,9 +282,9 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             if (mIsCEFR) {
                 text = mCEFRScore;
             } else if (mProjectedScore) {
-                text = String.valueOf(mProgress) + "/" + mMax;
+                text = truncate(mProgress) + "/" + mMax;
             } else {
-                int value = Math.round(((float) mProgress / (float) mMax) * 100);
+                int value = Math.round((mProgress / (float) mMax) * 100);
                 text = value + "%";
             }
 
@@ -297,6 +297,14 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
                 canvas.drawText(text, (getWidth() - mTextPaint.measureText(text)) / 2f, textBaseline, mTextPaint);
             }
         }
+    }
+
+    private String truncate(float value) {
+        if (value % 1 == 0) {
+            return String.valueOf((int) value);
+        }
+
+        return String.valueOf(value);
     }
 
     private void onDrawTextsButton(Canvas canvas) {
@@ -478,23 +486,23 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         this.subtitle = subtitle;
     }
 
-    public synchronized void setProgressAnimate(int progress) {
+    public synchronized void setProgressAnimate(float progress) {
         if (android.os.Build.VERSION.SDK_INT >= 11) {
 
             if (mAnimator != null) {
                 mAnimator.cancel();
             }
 
-            mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, progress);
+            mAnimator = ObjectAnimator.ofFloat(SeekArc.this, "progress", 0, progress);
             mAnimator.addUpdateListener(SeekArc.this);
-            mAnimator.setDuration(30 * progress);
+            mAnimator.setDuration(30 * (int) progress);
             mAnimator.setInterpolator(new DecelerateInterpolator());
             mAnimator.start();
         }
     }
 
     public synchronized void setPercentAnimate(float percent) {
-        int progress = Math.round(((float) mMax * (float) percent) / 100);
+        float progress = ((float) mMax * percent) / 100;
         setProgressAnimate(progress);
     }
 
