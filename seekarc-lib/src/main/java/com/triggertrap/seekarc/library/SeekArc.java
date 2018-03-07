@@ -403,7 +403,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         mThumbYPos = (int) (mArcRadius * Math.sin(Math.toRadians(thumbAngle)));
     }
 
-    private void updateProgress(int progress, boolean fromUser) {
+    private void updateProgress(float progress, boolean fromUser) {
         if (isInEditMode()) return;
 
         int INVALID_PROGRESS_VALUE = -1;
@@ -413,7 +413,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
         if (mOnSeekArcChangeListener != null) {
             mOnSeekArcChangeListener
-                    .onProgressChanged(this, progress, fromUser);
+                    .onProgressChanged(this, (int) progress, fromUser);
         }
 
         progress = (progress > mMax) ? mMax : progress;
@@ -493,7 +493,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
                 mAnimator.cancel();
             }
 
-            mAnimator = ObjectAnimator.ofInt(SeekArc.this, "progress", 0, (int) progress);
+            mAnimator = ObjectAnimator.ofFloat(SeekArc.this, "progress", 0f, progress);
             mAnimator.addUpdateListener(SeekArc.this);
             mAnimator.setDuration(30 * (int) progress);
             mAnimator.setInterpolator(new DecelerateInterpolator());
@@ -508,7 +508,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
 
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
-        int progress = (int) animation.getAnimatedValue();
+        float progress = (float) animation.getAnimatedValue();
         this.updateProgress(progress, false);
     }
 
