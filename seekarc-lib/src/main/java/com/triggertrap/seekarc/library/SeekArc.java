@@ -421,7 +421,6 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         progress = (progress > mMax) ? mMax : progress;
         progress = (mProgress < 0) ? 0 : progress;
 
-        mProgress = progress;
         mProgressSweep = progress / mMax * mSweepAngle;
 
         updateThumbPosition();
@@ -501,6 +500,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             mAnimator.setInterpolator(new DecelerateInterpolator());
             mAnimator.start();
         }
+
+        mProgress = progress;
     }
 
     public synchronized void setPercentAnimate(float percent) {
