@@ -45,6 +45,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import java.util.Locale;
+
 /**
  * SeekArc.java
  * <p>
@@ -284,8 +286,8 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             } else if (mProjectedScore) {
                 text = truncate(mProgress) + "/" + mMax;
             } else {
-                int value = Math.round((mProgress / (float) mMax) * 100);
-                text = value + "%";
+                float value = (mProgress / (float) mMax) * 100;
+                text = truncate(value) + "%";
             }
 
             if (!TextUtils.isEmpty(text)) {
@@ -304,7 +306,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
             return String.valueOf((int) value);
         }
 
-        return String.valueOf(value);
+        return String.format(Locale.getDefault(), "%.1f", value);
     }
 
     private void onDrawTextsButton(Canvas canvas) {
@@ -420,7 +422,7 @@ public class SeekArc extends View implements ValueAnimator.AnimatorUpdateListene
         progress = (mProgress < 0) ? 0 : progress;
 
         mProgress = progress;
-        mProgressSweep = (float) progress / mMax * mSweepAngle;
+        mProgressSweep = progress / mMax * mSweepAngle;
 
         updateThumbPosition();
 
